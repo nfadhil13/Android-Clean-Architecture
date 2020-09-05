@@ -1,5 +1,6 @@
 import dependencies.AnnotationProcessing
 import dependencies.SupportDependencies
+import dependencies.TestDependencies
 import dependencies.Versions
 import dependencies.Application
 import dependencies.dependencies.Dependencies
@@ -12,7 +13,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion Versions.compilesdk
     buildToolsVersion "29.0.3"
 
     defaultConfig {
@@ -46,6 +47,16 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    sourceSets{
+        test.resources.srcDirs += "src/test/res"
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -55,6 +66,9 @@ dependencies {
     implementation Dependencies.kotlin_standard_library
     implementation Dependencies.kotlin_reflect
     implementation Dependencies.ktx
+    implementation Dependencies.kotlin_coroutines
+    implementation Dependencies.kotlin_coroutines_android
+    implementation Dependencies.kotlin_coroutines_play_services
 
 
 
@@ -71,13 +85,22 @@ dependencies {
     implementation Dependencies.firebase_firestore
     implementation Dependencies.firebase_analytics
     implementation Dependencies.firebase_crashlytics
-    implementation Dependencies.kotlin_coroutines
-    implementation Dependencies.kotlin_coroutines_android
-    implementation Dependencies.kotlin_coroutines_play_services
     implementation Dependencies.retrofit
     implementation Dependencies.retrofit_gson
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 
     //Annotation Processing
     kapt AnnotationProcessing.dagger_compiler
+
+
+    //Test dependencies
+    testImplementation TestDependencies.mockk
+    testImplementation TestDependencies.jupiter_api
+    testImplementation TestDependencies.jupiter_params
+    testImplementation TestDependencies.junit4
+    testRuntimeOnly TestDependencies.jupiter_engine
+    testImplementation Dependencies.retrofit_gson
+
 
 }

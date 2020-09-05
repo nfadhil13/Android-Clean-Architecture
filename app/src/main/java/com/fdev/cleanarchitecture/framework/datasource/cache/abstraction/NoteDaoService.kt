@@ -10,9 +10,11 @@ interface NoteDaoService{
 
     suspend fun deleteNotes(notes : List<Note>) : Int
 
-    suspend fun updateNote(primaryKey: String, newTitle: String, newBody: String) : Int
+    suspend fun updateNote(primaryKey: String, newTitle: String, newBody: String?) : Int
 
     suspend fun searchNote(): List<Note>
+
+    suspend fun getAllNotes() : List<Note>
 
     suspend fun searchNotesOrderByDateDESC(
         query: String,
@@ -49,4 +51,6 @@ interface NoteDaoService{
         filterAndOrder: String,
         page: Int
     ): List<Note>
+
+
 }

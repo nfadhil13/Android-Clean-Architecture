@@ -46,8 +46,9 @@ class DateUtil  @Inject constructor(
     /*
         Return current timestamp in string format
      */
-    fun getCurrentTimeStampString() : String{
+    fun getCurrentTimestampString() : String{
         return dateFormat.format(Date())
     }
+
 
 }

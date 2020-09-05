@@ -21,8 +21,8 @@ class NoteFactory @Inject constructor(
             id = id ?: UUID.randomUUID().toString() ,
             title = title,
             body = body ?: "" ,
-            created_at = dateUtil.getCurrentTimeStampString(),
-            updated_at = dateUtil.getCurrentTimeStampString()
+            created_at = dateUtil.getCurrentTimestampString(),
+            updated_at = dateUtil.getCurrentTimestampString()
         )
     }
 
