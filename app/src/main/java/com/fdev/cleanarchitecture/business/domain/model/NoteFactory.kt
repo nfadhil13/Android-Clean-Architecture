@@ -1,6 +1,7 @@
 package com.fdev.cleanarchitecture.business.domain.model
 
 import com.fdev.cleanarchitecture.business.domain.util.DateUtil
+import java.sql.Timestamp
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,7 +19,7 @@ class NoteFactory @Inject constructor(
         body : String? = null
     ) :   Note {
         return Note(
-            id = id ?: UUID.randomUUID().toString() ,
+            id = UUID.randomUUID().toString() + dateUtil.getCurrentTimestampString() ,
             title = title,
             body = body ?: "" ,
             created_at = dateUtil.getCurrentTimestampString(),

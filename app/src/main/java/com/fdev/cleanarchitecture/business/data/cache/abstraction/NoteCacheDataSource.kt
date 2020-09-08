@@ -13,7 +13,7 @@ interface NoteCacheDataSource{
 
     suspend fun getAllNotes() : List<Note>
 
-    suspend fun updateNote(primaryKey: String, newTitle: String, newBody: String?): Int
+    suspend fun updateNote(primaryKey: String, newTitle: String, newBody: String? , updated_at : String? = null): Int
 
     suspend fun searchNotes(
         query: String,

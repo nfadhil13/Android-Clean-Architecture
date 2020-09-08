@@ -57,7 +57,7 @@ class SyncNotesTest {
         dateUtil = dependencyContainer.dateUtil
         syncNotes = SyncNotes(
             noteCacheDataSource = noteCacheDataSource,
-            noteNetworkDataSource = noteNetworkDataSource,
+            noteNetworkDataSource = noteNetworkDataSource
         )
     }
 

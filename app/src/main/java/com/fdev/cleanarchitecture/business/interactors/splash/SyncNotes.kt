@@ -8,13 +8,14 @@ import com.fdev.cleanarchitecture.business.data.util.safeApiCall
 import com.fdev.cleanarchitecture.business.data.util.safeCacheCall
 import com.fdev.cleanarchitecture.business.domain.model.Note
 import com.fdev.cleanarchitecture.business.domain.state.DataState
+import com.fdev.cleanarchitecture.business.domain.util.DateUtil
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SyncNotes(
     private val noteCacheDataSource : NoteCacheDataSource,
-    private val noteNetworkDataSource: NoteNetworkDataSource
+    private val noteNetworkDataSource: NoteNetworkDataSource,
 ){
 
     suspend fun syncNotes(){
@@ -72,18 +73,15 @@ class SyncNotes(
 
     private suspend fun sycnNetworkNoteWithCachedNoted(
         cachedNotes: ArrayList<Note>,
-        networkNotes : ArrayList<Note>
+        networkNotes : List<Note>
     ) = withContext(IO){
 
-        val job = launch {
-                for(networkNote in networkNotes){
-                    noteCacheDataSource.searchNoteById(networkNote.id)?.let{cachedNote ->
-                        cachedNotes.remove(cachedNote)
-                        checkIfCachedNoteRequiresUpdate(cachedNote , networkNote)
-                    }?: noteCacheDataSource.insertNote(networkNote)
-                }
+        for(networkNote in networkNotes){
+            noteCacheDataSource.searchNoteById(networkNote.id)?.let{cachedNote ->
+                cachedNotes.remove(cachedNote)
+                checkIfCachedNoteRequiresUpdate(cachedNote , networkNote)
+            }?: noteCacheDataSource.insertNote(networkNote)
         }
-        job.join()
 
         for(cachedNote in cachedNotes){
             safeApiCall(IO){
@@ -97,15 +95,17 @@ class SyncNotes(
         val cacheLastUpdate = cachedNote.updated_at
         val networkLastUpdate = networkNote.updated_at
 
+
         if(networkLastUpdate > cacheLastUpdate){
             safeCacheCall(IO){
                 noteCacheDataSource.updateNote(
                     primaryKey = networkNote.id,
                     newBody = networkNote.body,
-                    newTitle = networkNote.title
+                    newTitle = networkNote.title,
+                    updated_at  = networkNote.updated_at
                 )
             }
-        }else{
+        }else if(networkLastUpdate < cacheLastUpdate){
             safeApiCall(IO){
                 noteNetworkDataSource.insertOrUpdateNote(
                     cachedNote

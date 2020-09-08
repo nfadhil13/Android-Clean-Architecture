@@ -32,15 +32,15 @@ abstract class DataChannelManager<ViewState> {
             addStateEvent(stateEvent)
             jobFunction
                 .onEach { dataState ->
-                    dataState?.let { dState ->
+                    dataState?.let { nonNullDataState ->
                         withContext(Main){
-                            dataState.data?.let { data ->
+                            nonNullDataState.data?.let { data ->
                                 handleNewData(data)
                             }
-                            dataState.stateMessage?.let { stateMessage ->
+                            nonNullDataState.stateMessage?.let { stateMessage ->
                                 handleNewStateMessage(stateMessage)
                             }
-                            dataState.stateEvent?.let { stateEvent ->
+                            nonNullDataState.stateEvent?.let { stateEvent ->
                                 removeStateEvent(stateEvent)
                             }
                         }

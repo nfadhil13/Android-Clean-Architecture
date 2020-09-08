@@ -32,9 +32,10 @@ constructor(
     override suspend fun updateNote(
         primaryKey: String,
         newTitle: String,
-        newBody: String?
+        newBody: String?,
+        updated_at:  String?
     ): Int {
-        return noteDaoService.updateNote(primaryKey, newTitle, newBody)
+        return noteDaoService.updateNote(primaryKey, newTitle, newBody , updated_at)
     }
 
     override suspend fun searchNotes(
@@ -42,7 +43,9 @@ constructor(
         filterAndOrder: String,
         page: Int
     ): List<Note> {
-        TODO("Check filterAndOrder and make query")
+        return noteDaoService.returnOrderedQuery(
+            query , filterAndOrder , page
+        )
     }
 
     override suspend fun searchNoteById(id: String): Note? {

@@ -2,14 +2,23 @@ package com.fdev.cleanarchitecture.business.data.network
 
 import com.fdev.cleanarchitecture.business.data.network.abstraction.NoteNetworkDataSource
 import com.fdev.cleanarchitecture.business.domain.model.Note
+import com.fdev.cleanarchitecture.business.domain.util.DateUtil
 
 class FakeNoteNetworkDataSourceImpl
 constructor(
     private val notesData: HashMap<String, Note>,
-    private val deletedNotesData: HashMap<String, Note>
+    private val deletedNotesData: HashMap<String, Note>,
+    private val dateUtil : DateUtil
 ) : NoteNetworkDataSource {
 
     override suspend fun insertOrUpdateNote(note: Note) {
+        val n = Note(
+            id = note.id,
+            title = note.title,
+            body = note.body,
+            created_at = note.created_at,
+            updated_at = dateUtil.getCurrentTimestampString()
+        )
         notesData.put(note.id, note)
     }
 

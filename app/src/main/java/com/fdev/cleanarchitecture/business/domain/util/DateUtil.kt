@@ -39,7 +39,7 @@ class DateUtil  @Inject constructor(
         return : com.google.firebase.TimeStamp
      */
     fun convertStringDateToFirebaseTimestamp(date : String) : Timestamp {
-        return Timestamp(dateFormat.parse(date))
+        return Timestamp(dateFormat.parse(date)!!)
     }
 
 

@@ -34,6 +34,7 @@ suspend fun <T> safeApiCall(
             }
         } catch (throwable: Throwable) {
             throwable.printStackTrace()
+            cLog("Api call" + throwable.message)
             when (throwable) {
                 is TimeoutCancellationException -> {
                     val code = 408 // timeout error code
@@ -75,6 +76,7 @@ suspend fun <T> safeCacheCall(
             }
         } catch (throwable: Throwable) {
             throwable.printStackTrace()
+            cLog("CACHE CALL :"  + throwable.message)
             when (throwable) {
 
                 is TimeoutCancellationException -> {

@@ -62,7 +62,8 @@ constructor(
     override suspend fun updateNote(
         primaryKey: String,
         newTitle: String,
-        newBody: String?
+        newBody: String?,
+        updated_at : String?
     ): Int {
         if(primaryKey.equals(FORCE_UPDATE_NOTE_EXCEPTION)){
             throw Exception("Something went wrong updating the note.")
@@ -71,7 +72,7 @@ constructor(
             id = primaryKey,
             title = newTitle,
             body = newBody?: "",
-            updated_at = dateUtil.getCurrentTimestampString(),
+            updated_at = updated_at ?: dateUtil.getCurrentTimestampString(),
             created_at = notesData.get(primaryKey)?.created_at?: dateUtil.getCurrentTimestampString()
         )
         printLogD("FakeNoteCacheDataSourceImpl" , "Before update : ${notesData.get(primaryKey)}")
