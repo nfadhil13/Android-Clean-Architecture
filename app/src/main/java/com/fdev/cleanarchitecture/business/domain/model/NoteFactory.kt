@@ -19,7 +19,7 @@ class NoteFactory @Inject constructor(
         body : String? = null
     ) :   Note {
         return Note(
-            id = UUID.randomUUID().toString() + dateUtil.getCurrentTimestampString() ,
+            id = id ?: UUID.randomUUID().toString() ,
             title = title,
             body = body ?: "" ,
             created_at = dateUtil.getCurrentTimestampString(),

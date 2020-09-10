@@ -4,6 +4,7 @@ import com.fdev.cleanarchitecture.business.data.cache.CacheErrors.CACHE_ERROR_UN
 import com.fdev.cleanarchitecture.business.data.cache.FORCE_UPDATE_NOTE_EXCEPTION
 import com.fdev.cleanarchitecture.business.data.cache.abstraction.NoteCacheDataSource
 import com.fdev.cleanarchitecture.business.data.network.abstraction.NoteNetworkDataSource
+import com.fdev.cleanarchitecture.business.domain.model.Note
 import com.fdev.cleanarchitecture.business.domain.model.NoteFactory
 import com.fdev.cleanarchitecture.business.domain.state.DataState
 import com.fdev.cleanarchitecture.business.interactors.notedetail.UpdateNote.Companion.UPDATE_NOTE_FAILURE
@@ -18,6 +19,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.util.*
 
 
 @InternalCoroutinesApi
@@ -54,23 +56,22 @@ class UpdateNoteTest{
             1.4 confirm note is updated in cache
      */
     @Test
-    fun updateNote_success_confirmNetworkAndCacheUpdated() = runBlocking{
-        val existId = "2474abaa-788a-4a6b-948z-87a2167hb0ec"
+    fun updateNote_success_confirmNetworkAndCacheUpdated() = runBlocking {
 
-        val willBeUpdatedNote = noteCacheDataSource.searchNoteById(existId)!!
-
-        val updatedNote = noteFactory.createSingleNote(
-            willBeUpdatedNote.id,
-            "New Title",
-            "New Body"
+        val randomNote = noteCacheDataSource.searchNotes("", "", 1)
+            .get(0)
+        val updatedNote = Note(
+            id = randomNote.id,
+            title = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            updated_at = dependencyContainer.dateUtil.getCurrentTimestampString(),
+            created_at = randomNote.created_at
         )
-
         updateNote.updateNote(
-            updatedNote ,
-            NoteDetailStateEvent.UpdateNoteEvent()
-        ).collect(object : FlowCollector<DataState<NoteDetailViewState>?>{
+            note = updatedNote,
+            stateEvent = NoteDetailStateEvent.UpdateNoteEvent()
+        ).collect(object: FlowCollector<DataState<NoteDetailViewState>?>{
             override suspend fun emit(value: DataState<NoteDetailViewState>?) {
-                printLogD("DeleteNoteTest" , "After Update : ${noteCacheDataSource.searchNoteById(existId)}")
                 assertEquals(
                     value?.stateMessage?.response?.message,
                     UPDATE_NOTE_SUCCESS
@@ -78,16 +79,15 @@ class UpdateNoteTest{
             }
         })
 
-        val shouldBeUpdatedNoteInCache = noteCacheDataSource.searchNoteById(existId)!!
 
-        val shouldBeUpdatedNoteInNetwork = noteNetworkDataSource.searchNote(updatedNote)
 
-        assertEquals(
-            updatedNote,
-            shouldBeUpdatedNoteInCache
-        )
+        // confirm cache was updated
+        val cacheNote = noteCacheDataSource.searchNoteById(updatedNote.id)
+        assertTrue { cacheNote == updatedNote }
 
-        assertTrue{shouldBeUpdatedNoteInNetwork != null}
+        // confirm that network was updated
+        val networkNote = noteNetworkDataSource.searchNote(updatedNote)
+        assertTrue { networkNote == updatedNote }
     }
 
     /*
@@ -128,7 +128,6 @@ class UpdateNoteTest{
                 )
             }
         })
-
         val afterUpdateCacheSize =
             noteCacheDataSource.getNumNotes()
 
@@ -155,9 +154,9 @@ class UpdateNoteTest{
     @Test
     fun throwException_checkGenericError_confirmNetworkAndCacheUnchanged() = runBlocking{
         val updatedNote = noteFactory.createSingleNote(
-            FORCE_UPDATE_NOTE_EXCEPTION,
-            "New Title",
-            "New Body"
+            id =FORCE_UPDATE_NOTE_EXCEPTION,
+            title ="New Title",
+            body ="New Body"
         )
 
         val beforeUpdateCacheSize =
@@ -171,6 +170,7 @@ class UpdateNoteTest{
             NoteDetailStateEvent.UpdateNoteEvent()
         ).collect(object : FlowCollector<DataState<NoteDetailViewState>?>{
             override suspend fun emit(value: DataState<NoteDetailViewState>?) {
+                printLogD("UpdateNoteTest " , "${value?.stateMessage?.response?.message}")
                 assertTrue(
                     value?.stateMessage?.response?.message
                         ?.contains(CACHE_ERROR_UNKNOWN) ?: false

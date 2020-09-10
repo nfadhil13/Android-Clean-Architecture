@@ -1,0 +1,31 @@
+[debug] [2020-09-08T12:59:52.287Z] ----------------------------------------------------------------------
+[debug] [2020-09-08T12:59:52.290Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\naufa\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:exec --only firestore ui_and_unit_tests.sh
+[debug] [2020-09-08T12:59:52.290Z] CLI Version:   8.10.0
+[debug] [2020-09-08T12:59:52.290Z] Platform:      win32
+[debug] [2020-09-08T12:59:52.290Z] Node Version:  v12.18.3
+[debug] [2020-09-08T12:59:52.292Z] Time:          Tue Sep 08 2020 19:59:52 GMT+0700 (Western Indonesia Time)
+[debug] [2020-09-08T12:59:52.292Z] ----------------------------------------------------------------------
+[debug] [2020-09-08T12:59:52.292Z] 
+[debug] [2020-09-08T12:59:52.302Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-09-08T12:59:52.303Z] > authorizing via signed-in user
+[info] i  emulators: Starting emulators: firestore {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: firestore"}}
+[info] i  emulators: Shutting down emulators. {"metadata":{"emulator":{"name":"hub"},"message":"Shutting down emulators."}}
+[debug] [2020-09-08T12:59:52.422Z] Error: EPIPE: broken pipe, write
+    at Socket._write (internal/net.js:54:25)
+    at doWrite (_stream_writable.js:403:12)
+    at writeOrBuffer (_stream_writable.js:387:5)
+    at Socket.Writable.write (_stream_writable.js:318:11)
+    at Console.log (C:\Users\naufa\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\winston\lib\winston\transports\console.js:79:23)
+    at Console._write (C:\Users\naufa\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\winston-transport\index.js:103:17)
+    at doWrite (C:\Users\naufa\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\readable-stream\lib\_stream_writable.js:428:64)
+    at writeOrBuffer (C:\Users\naufa\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\readable-stream\lib\_stream_writable.js:417:5)
+    at Console.Writable.write (C:\Users\naufa\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\readable-stream\lib\_stream_writable.js:334:11)
+    at DerivedLogger.ondata (C:\Users\naufa\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\winston\node_modules\readable-stream\lib\_stream_readable.js:681:20)
+    at DerivedLogger.emit (events.js:327:22)
+    at DerivedLogger.EventEmitter.emit (domain.js:483:12)
+    at addChunk (C:\Users\naufa\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\winston\node_modules\readable-stream\lib\_stream_readable.js:298:12)
+    at readableAddChunk (C:\Users\naufa\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\winston\node_modules\readable-stream\lib\_stream_readable.js:280:11)
+    at DerivedLogger.Readable.push (C:\Users\naufa\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\winston\node_modules\readable-stream\lib\_stream_readable.js:241:10)
+    at DerivedLogger.Transform.push (C:\Users\naufa\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\winston\node_modules\readable-stream\lib\_stream_transform.js:139:32)
+[error] 
+[error] Error: An unexpected error has occurred.
