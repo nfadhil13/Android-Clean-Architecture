@@ -1,12 +1,13 @@
 package com.fdev.cleanarchitecture.business.interactors.notelist
 
 import com.fdev.cleanarchitecture.business.interactors.common.DeleteNote
+import com.fdev.cleanarchitecture.framework.presentation.notelist.state.NoteListViewState
 
 class NoteListInteractors(
-    private val deleteMultipleNotes: DeleteMultipleNotes,
-    private val getNumberOfNotes: GetNumberOfNotes,
-    private val insertNewNote: InsertNewNote,
-    private val restoreDeletedNote: RestoreDeletedNote,
-    private val searchNote: SearchNote,
-    private val deleteNote : DeleteNote<NoteListInteractors>
+    val deleteMultipleNotes: DeleteMultipleNotes,
+    val getNumberOfNotes: GetNumberOfNotes,
+    val insertNewNote: InsertNewNote,
+    val restoreDeletedNote: RestoreDeletedNote,
+    val searchNotes: SearchNote,
+    val deleteNote : DeleteNote<NoteListViewState>
 )

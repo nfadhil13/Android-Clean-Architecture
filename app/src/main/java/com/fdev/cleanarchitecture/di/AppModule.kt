@@ -200,7 +200,7 @@ object AppModule {
         return NoteListInteractors(
             insertNewNote = InsertNewNote(noteCacheDataSource, noteNetworkDataSource, noteFactory),
             deleteNote = DeleteNote(noteCacheDataSource, noteNetworkDataSource),
-            searchNote = SearchNote(noteCacheDataSource),
+            searchNotes = SearchNote(noteCacheDataSource),
             getNumberOfNotes =  GetNumberOfNotes(noteCacheDataSource),
             restoreDeletedNote = RestoreDeletedNote(noteCacheDataSource, noteNetworkDataSource),
             deleteMultipleNotes = DeleteMultipleNotes(noteCacheDataSource, noteNetworkDataSource)

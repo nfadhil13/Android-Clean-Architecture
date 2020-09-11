@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class DeleteNote<ViewState>(
+class  DeleteNote<ViewState>(
     private val noteCacheDataSource: NoteCacheDataSource,
     private val noteNetworkDataSource: NoteNetworkDataSource
 ) {
@@ -20,6 +20,8 @@ class DeleteNote<ViewState>(
     companion object{
         const val DELETE_NOTE_SUCCESS = "Succesfully deleted the note"
         const val DELETE_NOTE_FAILURE = "Failed to delete the note"
+        val DELETE_NOTE_PENDING = "Delete pending..."
+        val DELETE_ARE_YOU_SURE = "Are you sure you want to delete this?"
     }
 
     fun deleteNote(
